@@ -2,7 +2,8 @@
 
 CSS-only design system for **PT Dasa Aprilindo Sentosa** (daas.co.id) — a
 system integration & data technology company in Indonesia. Tokens and
-class-based components only, no React/JS, no build step. Derived from the
+class-based components only, no React, no build step (one optional ~2 KB
+vanilla script, `dasa-ui.js`, adds behaviour to dismissible alerts). Derived from the
 computed styles of the live site and refined with the brand's official
 color/type/spacing specification (Aug 2026).
 
@@ -21,6 +22,15 @@ separately unless you need to omit the font import.
 `var(--color-text-primary)`, base font `var(--font-copy)`). If your root
 isn't a real `<body>`, apply those three declarations to your top-level
 container explicitly.
+
+## Optional script: `dasa-ui.js`
+
+The system is CSS-only; the script is needed **only** for dismissible/auto-closing
+alerts. Load it once (`<script src="dasa-ui.js" defer></script>`). Alerts inserted later
+(HTMX, fetch) are picked up automatically. Events on the alert: `dasa:alert-close`
+(cancelable, before closing) and `dasa:alert-removed` (on `document`, after removal —
+useful to re-measure layout). API: `DasaUI.dismissAlert(el)`, `DasaUI.initAlerts(root)`.
+Without the script alerts render normally; the close button is inert.
 
 ## Light & dark mode
 
@@ -58,12 +68,15 @@ Component classes defined in `components.css`:
 | `.badge`, `.badge--primary`, `.badge--secondary` | default is neutral surface-muted; primary=blue-tinted, secondary=orange-tinted (tint mixes toward the current theme's surface, so it adapts automatically) |
 | `.navbar`, `.navbar__brand`, `.navbar__links` | flex row nav; links is a `<ul>` |
 | `.field` | label + input/textarea/select wrapper, use inside `.grid` for multi-column forms |
+| `.fieldset`, `.fieldset--plain`, `.fieldset--muted`, `.fieldset__hint` | groups related fields: `<fieldset class="fieldset"><legend>…</legend>…</fieldset>`. Real `<fieldset>`/`<legend>` so screen readers announce the group; `--plain` = no box, orange rule under the legend; `--muted` = soft filled panel; the `disabled` attribute disables every field inside (dimmed automatically). Put `.field`/`.grid` inside as usual |
 | `.stat`, `.stat__value`, `.stat__label` | centered stat block, put 2–4 inside `.grid grid--N` |
 | `.eyebrow` | small uppercase kicker line above a heading, orange |
 | `.section`, `.section--lg`, `.section--dark` | page-section padding rhythm; `--dark` is a fixed decorative navy panel that intentionally does NOT follow the light/dark theme — use for highlight content, not as a default surface |
 | `.container` | centers content, `max-width: var(--container-max)` (1140px) |
 | `.grid`, `.grid--2`, `.grid--3`, `.grid--4` | responsive grid, collapses at 900px/600px |
 | `.alert`, `.alert--info/success/warning/danger` | tinted notice block, `.alert__dot` + `.alert__title` |
+| `.alert--dismissible`, `.alert__close` | adds a close button: `<button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>` (needs `dasa-ui.js`) |
+| `data-autoclose="ms"` on `.alert` | closes itself after `ms` milliseconds (`true` = 5000) with a countdown bar (`.alert__progress`, added automatically); pauses while hovered/focused. Combine with `.alert--dismissible` for both. Don't auto-close error messages |
 | `.table-wrap`, `.table` | bordered data table with header row and row hover |
 | `.tabs`, `.tabs__link`, `.tabs__link--active` | underline tab row |
 | `.pagination`, `.pagination__item`, `--active`, `--disabled` | pill page controls |
@@ -127,6 +140,7 @@ language per surface and keep it consistent.
 | `styles.css` | Entry point — `@import`s Google Fonts, then `tokens.css`, then `components.css` |
 | `tokens.css` | Custom properties: raw brand/neutral colors, semantic aliases (light + dark theme), typography, spacing, radius, shadow, motion |
 | `components.css` | Class-based components: button, card, badge, nav, form, stat, layout section/grid — dark-theme aware |
+| `dasa-ui.js` | Optional vanilla script for alert close button and auto-close |
 | `guidelines/style-guide.html` | Live reference page with a light/dark toggle, rendering every class and token |
 | `SKILL.md` | Portable skill file for use in Claude Code |
 

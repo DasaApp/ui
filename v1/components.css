@@ -196,6 +196,29 @@ a:hover { color: var(--color-brand-primary-hover); }
 .badge--primary { background: color-mix(in srgb, var(--color-brand-primary) 18%, var(--color-surface)); color: var(--color-brand-primary); }
 .badge--secondary { background: color-mix(in srgb, var(--color-brand-secondary) 18%, var(--color-surface)); color: var(--color-brand-secondary); }
 
+/* -- Page header (title + action row) ------------------------------------------- */
+
+/* A title (usually an h1/h2) plus one or more .btn actions, laid out the
+   same way .navbar is below but for in-page content rather than the top
+   nav — wraps instead of overflowing once the title + buttons don't fit
+   on one line, which .navbar-style flex rows do NOT do by default. The
+   `> *:last-child` rule covers the common case where the actions are
+   themselves grouped in a small wrapper div (e.g.
+   `<div style="display:flex;gap:...">`) holding 2+ buttons — that wrapper
+   needs to wrap *within itself* too on a narrow screen, without requiring
+   its own class. */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.page-header > *:last-child {
+  flex-wrap: wrap;
+}
+
 /* -- Nav ------------------------------------------------------------------------------ */
 
 .navbar {
@@ -237,7 +260,14 @@ a:hover { color: var(--color-brand-primary-hover); }
   margin-bottom: var(--space-4);
 }
 
-.field label {
+/* Direct child only — .field's own shape is <label> + input/textarea/select
+   as siblings right inside it (c-ui.field's own markup). A descendant
+   selector here (`.field label`) also matches any unrelated <label> nested
+   deeper inside a field's content — e.g. a `<label class="btn btn--primary">`
+   used as a styled file-input trigger — and its specificity (0,1,1) beats
+   .btn--primary's own (0,1,0) color rule, silently turning a white button
+   label the heading color instead. */
+.field > label {
   font-family: var(--font-body);
   font-weight: var(--font-weight-semibold);
   font-size: var(--text-sm);
@@ -246,7 +276,9 @@ a:hover { color: var(--color-brand-primary-hover); }
 
 .field input,
 .field textarea,
-.field select {
+.field select,
+.input,
+input:where([type="text"], [type="search"], [type="email"], [type="password"], [type="number"], [type="url"], [type="tel"]) {
   font-family: var(--font-copy);
   font-size: var(--text-base);
   padding: 0.65rem 0.9rem;
@@ -259,11 +291,92 @@ a:hover { color: var(--color-brand-primary-hover); }
 }
 .field input:focus,
 .field textarea:focus,
-.field select:focus {
+.field select:focus,
+.input:focus,
+input:where([type="text"], [type="search"], [type="email"], [type="password"], [type="number"], [type="url"], [type="tel"]):focus {
   outline: none;
   border-color: var(--color-brand-primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-primary) 20%, transparent);
 }
+
+/* -- Fieldset (pengelompokan field) ------------------------------------------------------ */
+/* <fieldset class="fieldset"><legend>Judul grup</legend> ...field... </fieldset>
+   Pakai <fieldset>/<legend> asli supaya pembaca layar mengumumkan nama grup. Varian:
+   --plain (garis pemisah tanpa kotak), --muted (latar abu lembut), atribut `disabled` menonaktifkan
+   semua field di dalamnya. */
+
+.fieldset {
+  min-inline-size: 0; /* fieldset bawaan peramban menolak mengecil di dalam grid/flex */
+  margin: 0 0 var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.fieldset > legend {
+  padding: 0 var(--space-2);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+  color: var(--color-heading);
+}
+.fieldset__hint {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-copy);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+.fieldset > .field:last-child,
+.fieldset > .grid:last-child > .field:last-child,
+.fieldset > :last-child { margin-bottom: 0; }
+
+.fieldset--muted { background: var(--color-surface-muted); border-color: transparent; }
+.fieldset--muted > legend {
+  /* tanpa garis tepi, legend dimasukkan ke dalam panel (bukan menumpang di garis) */
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--space-4);
+}
+.fieldset--muted > legend + * { clear: both; }
+
+.fieldset--plain {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.fieldset--plain > legend {
+  /* legend bergaya judul seksi: selebar grup, garis oranye di bawahnya */
+  display: block;
+  width: 100%;
+  padding: 0 0 var(--space-2);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  border-bottom: 2px solid var(--color-brand-secondary);
+}
+
+.fieldset:disabled { opacity: 0.6; }
+.fieldset:disabled input,
+.fieldset:disabled textarea,
+.fieldset:disabled select { cursor: not-allowed; background: var(--color-surface-muted); }
+
+/* -- Status galat pada field ------------------------------------------------------------- */
+/* <div class="field field--invalid"> ... label, kontrol, <small>pesan galat</small> </div>
+   Border kontrol, label, dan cincin fokus berubah merah supaya bagian yang harus diperbaiki cepat terlihat. */
+
+.field.field--invalid > label { color: var(--color-danger); }
+.field.field--invalid input,
+.field.field--invalid textarea,
+.field.field--invalid select { border-color: var(--color-danger); }
+.field.field--invalid input:focus,
+.field.field--invalid textarea:focus,
+.field.field--invalid select:focus {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 20%, transparent);
+}
+.field.field--invalid > small { color: var(--color-danger); }
 
 /* -- Stat -------------------------------------------------------------------------------------- */
 
@@ -306,6 +419,67 @@ a:hover { color: var(--color-brand-primary-hover); }
 .alert--success { color: var(--color-success); background: color-mix(in srgb, var(--color-success) 12%, var(--color-surface)); }
 .alert--warning { color: var(--color-warning); background: color-mix(in srgb, var(--color-warning) 14%, var(--color-surface)); }
 .alert--danger { color: var(--color-danger); background: color-mix(in srgb, var(--color-danger) 12%, var(--color-surface)); }
+
+/* Alert yang bisa ditutup dan/atau tutup otomatis. Perilaku (tombol tutup, hitung mundur, jeda saat
+   kursor di atas) dijalankan dasa-ui.js; tanpa skrip, alert tetap tampil biasa. Markup:
+   <div class="alert alert--success alert--dismissible" data-autoclose="5000"> ...
+     <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button></div> */
+.alert { position: relative; overflow: hidden; }
+.alert--dismissible { padding-right: calc(var(--space-5) + 2rem); }
+.alert__close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: currentColor;
+  font-size: var(--text-lg);
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: opacity var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard);
+}
+.alert__close:hover { opacity: 1; background: color-mix(in srgb, currentColor 14%, transparent); }
+.alert__close:focus-visible { opacity: 1; outline: 2px solid currentColor; outline-offset: 1px; }
+
+/* Indikator waktu tutup otomatis; lamanya = --alert-duration (diisi dasa-ui.js dari data-autoclose). */
+.alert__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: left center;
+  animation: alert-countdown var(--alert-duration, 5000ms) linear forwards;
+}
+.alert:hover .alert__progress,
+.alert:focus-within .alert__progress { animation-play-state: paused; }
+@keyframes alert-countdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+.alert--leaving {
+  opacity: 0;
+  max-height: 0 !important;
+  margin-block: 0;
+  padding-block: 0;
+  transition: opacity var(--duration-base) var(--ease-standard),
+              max-height var(--duration-base) var(--ease-standard),
+              margin var(--duration-base) var(--ease-standard),
+              padding var(--duration-base) var(--ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .alert__progress { animation: none; transform: none; }
+  .alert--leaving { transition: none; }
+}
 
 /* -- Table ------------------------------------------------------------------------------------- */
 

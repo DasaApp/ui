@@ -5,6 +5,7 @@
 <title>Dasa Design System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="styles.css" />
+<script src="dasa-ui.js" defer></script>
 <style>
   .swatch { border-radius: var(--radius-md); height: 84px; display:flex; align-items:flex-end; padding:10px; }
   .swatch-label { font-family: var(--font-body); font-size: 12px; background: rgba(255,255,255,.9); padding:2px 6px; border-radius:4px; color:#222; }
@@ -157,6 +158,82 @@
       <textarea id="msg" rows="3" placeholder="Ceritakan kebutuhan proyek Anda"></textarea>
     </div>
     <button class="btn btn--primary">Kirim Pesan</button>
+
+    <h3 style="margin-top: var(--space-8);">Pengelompokan field (fieldset)</h3>
+    <p style="color: var(--color-text-secondary);">Gunakan <code>&lt;fieldset class="fieldset"&gt;</code> dengan <code>&lt;legend&gt;</code> untuk mengelompokkan field yang berkaitan; pembaca layar ikut mengumumkan nama grupnya. Isi grup memakai <code>.field</code> dan <code>.grid</code> seperti biasa.</p>
+
+    <fieldset class="fieldset">
+      <legend>Data kontak</legend>
+      <p class="fieldset__hint">Dipakai tim kami untuk menghubungi Anda.</p>
+      <div class="grid grid--2">
+        <div class="field">
+          <label for="fs-name">Nama</label>
+          <input id="fs-name" type="text" placeholder="Nama lengkap" />
+        </div>
+        <div class="field">
+          <label for="fs-email">Email</label>
+          <input id="fs-email" type="email" placeholder="nama@perusahaan.com" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>Detail proyek</legend>
+      <div class="grid grid--2">
+        <div class="field">
+          <label for="fs-type">Jenis layanan</label>
+          <select id="fs-type"><option>Build</option><option>Research</option><option>Develop</option></select>
+        </div>
+        <div class="field">
+          <label for="fs-budget">Perkiraan anggaran</label>
+          <input id="fs-budget" type="text" placeholder="mis. Rp 250 juta" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="fs-msg">Kebutuhan</label>
+        <textarea id="fs-msg" rows="3" placeholder="Ceritakan kebutuhan proyek Anda"></textarea>
+      </div>
+    </fieldset>
+
+    <h4 style="margin-top: var(--space-6);">Status galat (<code>field--invalid</code>)</h4>
+    <p style="color: var(--color-text-secondary);">Tambahkan <code>field--invalid</code> pada <code>.field</code> agar label, border, dan cincin fokus menjadi merah; letakkan pesan galat di <code>&lt;small&gt;</code>.</p>
+    <div class="grid grid--2">
+      <div class="field field--invalid">
+        <label for="fs-bad">Email</label>
+        <input id="fs-bad" type="email" value="nama@" />
+        <small>Masukkan alamat email yang valid.</small>
+      </div>
+      <div class="field">
+        <label for="fs-ok">Email (valid)</label>
+        <input id="fs-ok" type="email" value="nama@perusahaan.com" />
+      </div>
+    </div>
+
+    <h4 style="margin-top: var(--space-6);">Varian</h4>
+    <div class="grid grid--2">
+      <fieldset class="fieldset fieldset--plain">
+        <legend>Tanpa kotak (<code>fieldset--plain</code>)</legend>
+        <div class="field">
+          <label for="fs-plain">Perusahaan</label>
+          <input id="fs-plain" type="text" placeholder="PT Contoh Sejahtera" />
+        </div>
+      </fieldset>
+      <fieldset class="fieldset fieldset--muted">
+        <legend>Latar lembut (<code>fieldset--muted</code>)</legend>
+        <div class="field">
+          <label for="fs-muted">Jabatan</label>
+          <input id="fs-muted" type="text" placeholder="Head of Product" />
+        </div>
+      </fieldset>
+    </div>
+    <fieldset class="fieldset" disabled>
+      <legend>Dinonaktifkan (atribut <code>disabled</code>)</legend>
+      <p class="fieldset__hint">Semua field di dalam grup ikut nonaktif.</p>
+      <div class="field">
+        <label for="fs-off">Kode referensi</label>
+        <input id="fs-off" type="text" value="REF-2026-001" />
+      </div>
+    </fieldset>
   </section>
 
   <section class="doc-section">
@@ -189,6 +266,40 @@
         <div><p class="alert__title">Gagal</p><p>Koneksi ke server database terputus.</p></div>
       </div>
     </div>
+
+    <h3 style="margin-top: var(--space-8);">Bisa ditutup &amp; tutup otomatis</h3>
+    <p style="color: var(--color-text-secondary);">Tambahkan <code>alert--dismissible</code> dan tombol <code>.alert__close[data-alert-close]</code> untuk tombol tutup; tambahkan <code>data-autoclose="ms"</code> agar tertutup sendiri dengan indikator waktu (berhenti selagi kursor di atasnya). Perilakunya dijalankan <code>dasa-ui.js</code> (opsional). Pesan galat sebaiknya <em>tidak</em> ditutup otomatis.</p>
+    <div class="grid grid--2" id="alert-demo">
+      <div class="alert alert--info alert--dismissible">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Bisa ditutup</p><p>Klik tombol × untuk menutup pesan ini.</p></div>
+        <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>
+      </div>
+      <div class="alert alert--success alert--dismissible" data-autoclose="8000">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Tutup otomatis (8 dtk)</p><p>Tertutup sendiri; arahkan kursor untuk menjeda.</p></div>
+        <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>
+      </div>
+      <div class="alert alert--warning alert--dismissible">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Peringatan menetap</p><p>Tetap tampil sampai pengguna menutupnya.</p></div>
+        <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>
+      </div>
+      <div class="alert alert--info" data-autoclose="6000">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Hanya tutup otomatis</p><p>Tanpa tombol tutup; hilang setelah 6 detik.</p></div>
+      </div>
+    </div>
+    <button type="button" class="btn btn--outline btn--sm" id="alert-demo-reset" style="margin-top: var(--space-4);">Tampilkan ulang contoh</button>
+    <script>
+      (function () {
+        var box = document.getElementById('alert-demo');
+        var original = box.innerHTML;
+        document.getElementById('alert-demo-reset').addEventListener('click', function () {
+          box.innerHTML = original; // MutationObserver dasa-ui.js menginisialisasi ulang alert baru
+        });
+      })();
+    </script>
   </section>
 
   <section class="doc-section">
