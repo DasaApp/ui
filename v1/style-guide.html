@@ -195,6 +195,26 @@
       </div>
     </fieldset>
 
+    <h4 style="margin-top: var(--space-6);">Tata letak form (<code>.form</code>, <code>.form-row</code>, <code>.field--sm</code>)</h4>
+    <p style="color: var(--color-text-secondary);">Form tidak melebar penuh: bungkus dengan <code>.form</code> (atau kartu <code>.card--form</code>), kelompokkan dengan <code>fieldset</code>, sejajarkan field berkaitan dengan <code>.form-row</code>, dan batasi field pendek dengan <code>.field--xs|sm|md</code>.</p>
+    <div class="card card--form">
+      <form class="form" onsubmit="return false;">
+        <fieldset class="fieldset fieldset--plain">
+          <legend>Data anggota</legend>
+          <div class="form-row">
+            <div class="field"><label for="fl-email">Email</label><input id="fl-email" type="email" placeholder="nama@perusahaan.com" /></div>
+            <div class="field"><label for="fl-name">Nama lengkap</label><input id="fl-name" type="text" placeholder="Nama Lengkap" /></div>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset fieldset--plain">
+          <legend>Pengaturan</legend>
+          <div class="field field--sm"><label for="fl-limit">Batas (angka)</label><input id="fl-limit" type="number" min="1" value="5" /></div>
+          <label class="field__checkbox" for="fl-opt"><input id="fl-opt" type="checkbox" /><span>Kirim undangan setelah disimpan</span></label>
+        </fieldset>
+        <div class="form__actions"><button type="submit" class="btn btn--primary">Simpan</button><button type="button" class="btn btn--outline">Batal</button></div>
+      </form>
+    </div>
+
     <h4 style="margin-top: var(--space-6);">Status galat (<code>field--invalid</code>)</h4>
     <p style="color: var(--color-text-secondary);">Tambahkan <code>field--invalid</code> pada <code>.field</code> agar label, border, dan cincin fokus menjadi merah; letakkan pesan galat di <code>&lt;small&gt;</code>.</p>
     <div class="grid grid--2">

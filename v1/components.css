@@ -362,6 +362,68 @@ input:where([type="text"], [type="search"], [type="email"], [type="password"], [
 .fieldset:disabled textarea,
 .fieldset:disabled select { cursor: not-allowed; background: var(--color-surface-muted); }
 
+/* ===== BEGIN form-layout (tambahan v1.1; aditif, tidak mengubah aturan lama) ================
+   Form tidak melebar penuh: lebarnya mengikuti kebutuhan isian.
+   - `.form`            : membatasi lebar form (36rem); `.form--narrow` 24rem, `.form--wide` 52rem,
+                          `.form--full` tanpa batas (hanya untuk tabel/editor besar).
+   - `.card--form`      : kartu berisi satu form tidak melebar penuh (40rem; `.card--wide` 56rem).
+   - `.field--xs|sm|md` : membatasi lebar SATU field (kode/angka 6rem, tanggal/pilihan pendek 12rem,
+                          email/nama 20rem); tanpa modifier = selebar form.
+   - `.form-row`        : menaruh beberapa field berkaitan sejajar (grid otomatis, turun baris di layar sempit).
+   - `.form__actions`   : baris tombol di bawah form (utama di kiri).
+   - `.field__checkbox` : kotak centang/radio berlabel (label dapat diklik, tanpa gaya input).
+   Kelompokkan field berkaitan dengan <fieldset class="fieldset"><legend>…</legend>…</fieldset>. */
+
+.form {
+  --form-width: 36rem;
+  width: 100%;
+  max-width: var(--form-width);
+}
+.form--narrow { --form-width: 24rem; }
+.form--wide { --form-width: 52rem; }
+.form--full { --form-width: none; max-width: none; }
+
+.card--form { width: 100%; max-width: 40rem; box-sizing: border-box; }
+.card--form.card--wide { max-width: 56rem; }
+
+.field--xs { max-width: 6rem; }
+.field--sm { max-width: 12rem; }
+.field--md { max-width: 20rem; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  column-gap: var(--space-4);
+}
+.form-row > .field { max-width: none; }
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.form .fieldset { margin-bottom: var(--space-4); }
+
+.field__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+.field__checkbox input {
+  width: auto;
+  margin-top: 0.2rem;
+  padding: 0;
+  accent-color: var(--color-brand-primary);
+}
+/* ===== END form-layout ===================================================================== */
+
 /* -- Status galat pada field ------------------------------------------------------------- */
 /* <div class="field field--invalid"> ... label, kontrol, <small>pesan galat</small> </div>
    Border kontrol, label, dan cincin fokus berubah merah supaya bagian yang harus diperbaiki cepat terlihat. */

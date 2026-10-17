@@ -69,6 +69,10 @@ Component classes defined in `components.css`:
 | `.navbar`, `.navbar__brand`, `.navbar__links` | flex row nav; links is a `<ul>` |
 | `.field` | label + input/textarea/select wrapper, use inside `.grid` for multi-column forms |
 | `.fieldset`, `.fieldset--plain`, `.fieldset--muted`, `.fieldset__hint` | groups related fields: `<fieldset class="fieldset"><legend>…</legend>…</fieldset>`. Real `<fieldset>`/`<legend>` so screen readers announce the group; `--plain` = no box, orange rule under the legend; `--muted` = soft filled panel; the `disabled` attribute disables every field inside (dimmed automatically). Put `.field`/`.grid` inside as usual |
+| `.form`, `.form--narrow`, `.form--wide`, `.form--full`, `.card--form`, `.card--wide` | **form tidak melebar penuh**: `.form` membatasi lebar (36rem; narrow 24, wide 52, full tanpa batas); `.card--form` membatasi kartu berisi satu form (40rem; `.card--wide` 56rem) |
+| `.field--xs`, `.field--sm`, `.field--md` | lebar satu field menurut isinya: 6rem (kode/angka), 12rem (tanggal/pilihan pendek), 20rem (email/nama); tanpa modifier = selebar form |
+| `.form-row`, `.form__actions` | field berkaitan sejajar (grid otomatis, turun baris di layar sempit); baris tombol di bawah form |
+| `.field__checkbox` | kotak centang/radio berlabel: `<label class="field__checkbox"><input type="checkbox"><span>Teks</span></label>` |
 | `.stat`, `.stat__value`, `.stat__label` | centered stat block, put 2–4 inside `.grid grid--N` |
 | `.eyebrow` | small uppercase kicker line above a heading, orange |
 | `.section`, `.section--lg`, `.section--dark` | page-section padding rhythm; `--dark` is a fixed decorative navy panel that intentionally does NOT follow the light/dark theme — use for highlight content, not as a default surface |
