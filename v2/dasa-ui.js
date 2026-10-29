@@ -146,16 +146,19 @@
   });
 
   /* -- v2: toast --------------------------------------------------------------
-   * DasaUI.toast("Pesan", { type: "success|info|warning|danger", title: "Judul", duration: 5000 })
+   * DasaUI.toast("Pesan", { type: "success|info|warning|danger", title: "Judul", duration: 5000,
+   *   position: "top-left|top-center|top-right|bottom-left|bottom-center|bottom-right|center" })
    * duration 0 = tidak tertutup otomatis. Teks disisipkan via textContent (aman dari XSS). */
   function toast(message, options) {
     options = options || {};
     var type = options.type || "info";
     var duration = options.duration === undefined ? DEFAULT_AUTOCLOSE_MS : options.duration;
-    var region = document.querySelector(".toast-region");
+    var position = options.position || toast.position;
+    var region = document.querySelector(".toast-region[data-position=\"" + position + "\"]");
     if (!region) {
       region = document.createElement("div");
       region.className = "toast-region";
+      region.setAttribute("data-position", position);
       region.setAttribute("role", "status");
       region.setAttribute("aria-live", "polite");
       document.body.appendChild(region);
@@ -187,9 +190,12 @@
     region.appendChild(el);
     return el;
   }
+  /* Posisi bawaan semua toast; ubah sekali: DasaUI.toast.position = "top-center" */
+  toast.position = "bottom-right";
   document.addEventListener("dasa:alert-removed", function () {
-    var region = document.querySelector(".toast-region");
-    if (region && !region.children.length) region.remove();
+    document.querySelectorAll(".toast-region").forEach(function (region) {
+      if (!region.children.length) region.remove();
+    });
   });
   window.DasaUI = { dismissAlert: dismissAlert, initAlerts: initAlerts, toast: toast };
 })();

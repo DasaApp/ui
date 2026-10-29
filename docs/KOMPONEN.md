@@ -40,7 +40,11 @@ membuat hanya satu panel terbuka (didukung browser modern; browser lama tetap me
 DasaUI.toast("Data tersimpan", { type: "success", title: "Berhasil", duration: 5000 });
 ```
 
-`type`: `info`, `success`, `warning`, `danger`. `duration: 0` = tidak tertutup otomatis. Teks disisipkan
+`type`: `info`, `success`, `warning`, `danger`. `duration: 0` = tidak tertutup otomatis.
+`position`: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right` (bawaan), atau `center`.
+Ubah posisi bawaan sekali dengan `DasaUI.toast.position = "top-center"`. Toast dengan posisi berbeda ditumpuk
+di wadah masing-masing. Di bawah 480px semua posisi dipusatkan secara horizontal agar tidak terpotong.
+ Teks disisipkan
 dengan `textContent`, jadi aman dari XSS. Wadah `.toast-region` dibuat otomatis (`role="status"`).
 
 ## Utilitas
@@ -73,5 +77,11 @@ Atur jarak dengan `.stack--sm|lg` atau variabel `--stack-gap` / `--cluster-gap`.
 | Hamburger tidak muncul | Lebar >= 768px, atau kelas `navbar--collapsible` tidak ada | Perkecil jendela / tambahkan kelas |
 | Menu hamburger tidak terbuka | `for` label tidak cocok dengan `id` checkbox | Samakan `id` dan `for` |
 | `DasaUI is not defined` | `dasa-ui.js` belum dimuat | Tambahkan `<script src="dasa-ui.js" defer>` |
+| Toast muncul di posisi tak terduga | `position` salah ketik (tidak ada di daftar) | Pakai salah satu dari 7 nilai di atas |
 | Toast tidak hilang sendiri | `duration: 0` | Beri durasi > 0 |
 
+
+## Style guide: daftar isi
+
+Di 2/style-guide.html daftar isi tampil sebagai **sidebar kiri** pada layar >= 1024px (bagian aktif disorot saat menggulir)
+dan sebagai bar horizontal yang menempel di atas pada mobile/tablet.

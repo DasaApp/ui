@@ -848,12 +848,25 @@ img, video, svg, canvas { max-width: 100%; height: auto; }
 /* -- Toast (wadah untuk .alert sementara; dibuat oleh DasaUI.toast) ------------ */
 .toast-region {
   position: fixed; z-index: 1000; display: flex; flex-direction: column; gap: var(--space-3);
-  inset-inline: var(--space-4); bottom: max(var(--space-4), env(safe-area-inset-bottom));
-  pointer-events: none;
+  width: min(24rem, 100% - 2rem); pointer-events: none;
+  /* default: bawah-kanan */
+  bottom: max(var(--space-4), env(safe-area-inset-bottom)); right: var(--space-4);
 }
 .toast-region > * { pointer-events: auto; box-shadow: var(--shadow-lg); }
-@media (min-width: 480px) {
-  .toast-region { inset-inline: auto var(--space-5); width: min(24rem, 100% - 2rem); }
+/* Posisi via data-position: top-left | top-center | top-right | bottom-left | bottom-center | bottom-right | center */
+.toast-region[data-position^="top"]    { top: max(var(--space-4), env(safe-area-inset-top)); bottom: auto; }
+.toast-region[data-position="bottom-left"],
+.toast-region[data-position="top-left"] { left: var(--space-4); right: auto; }
+.toast-region[data-position="top-right"] { right: var(--space-4); }
+.toast-region[data-position="top-center"],
+.toast-region[data-position="bottom-center"],
+.toast-region[data-position="center"] { left: 50%; right: auto; transform: translateX(-50%); }
+.toast-region[data-position="center"] { top: 50%; bottom: auto; transform: translate(-50%, -50%); }
+/* Mobile: semua posisi horizontal dipusatkan agar toast tidak terpotong */
+@media (max-width: 479px) {
+  .toast-region[data-position$="left"], .toast-region[data-position$="right"], .toast-region:not([data-position]) {
+    left: 50%; right: auto; transform: translateX(-50%);
+  }
 }
 
 

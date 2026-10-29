@@ -30,7 +30,14 @@
   .doc-toc a:hover { background: var(--color-surface-muted); }
   .doc-code { position: relative; margin: var(--space-4) 0 0; padding: var(--space-7) var(--space-4) var(--space-4); overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-muted); font-size: var(--text-sm); }
   .doc-code code { background: none; padding: 0; font-size: inherit; }
-  .doc-code .copy-btn { position: absolute; top: var(--space-2); right: var(--space-2); }</style>
+  .doc-code .copy-btn { position: absolute; top: var(--space-2); right: var(--space-2); }  /* Daftar isi: bar horizontal di mobile/tablet, sidebar kiri di desktop (>=1024px) */
+  .doc-main { padding-block: var(--space-8); min-width: 0; }
+  .doc-toc a.is-active { background: color-mix(in srgb, var(--color-brand-primary) 12%, var(--color-surface)); color: var(--color-brand-primary); }
+  @media (min-width: 1024px) {
+    .doc-layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); align-items: start; }
+    .doc-toc { top: 0; flex-direction: column; gap: 2px; height: 100vh; overflow-x: hidden; overflow-y: auto; white-space: normal; padding: var(--space-5) var(--space-3); border-bottom: 0; border-inline-end: 1px solid var(--color-border); }
+    .doc-toc a { border-radius: var(--radius-md); }
+  }</style>
 </head>
 <body>
 
@@ -45,9 +52,10 @@
   </div>
 </header>
 
+<div class="doc-layout">
 <nav class="doc-toc" id="doc-toc" aria-label="Daftar isi"></nav>
 
-<main class="container" style="padding-block: var(--space-8);">
+<main class="container doc-main">
 
   <section class="doc-section">
     <h2>Warna</h2>
@@ -519,14 +527,22 @@
 
   <section class="doc-section">
     <h2>Toast</h2>
-    <p>Notifikasi sementara di pojok layar (memakai gaya alert). Butuh <code>dasa-ui.js</code>.</p>
+    <p>Notifikasi sementara (memakai gaya alert) dengan 7 posisi: atas/bawah &times; kiri/tengah/kanan, dan tengah. Di mobile otomatis dipusatkan horizontal. Butuh <code>dasa-ui.js</code>.</p>
     <div class="cluster">
+      <label class="visually-hidden" for="toast-pos">Posisi toast</label>
+      <select id="toast-pos" class="input" style="width:auto;">
+        <option value="bottom-right">Bawah kanan</option><option value="bottom-center">Bawah tengah</option><option value="bottom-left">Bawah kiri</option>
+        <option value="top-right">Atas kanan</option><option value="top-center">Atas tengah</option><option value="top-left">Atas kiri</option>
+        <option value="center">Tengah</option>
+      </select>
       <button class="btn btn--outline btn--sm" data-toast="success">Berhasil</button>
       <button class="btn btn--outline btn--sm" data-toast="info">Info</button>
       <button class="btn btn--outline btn--sm" data-toast="warning">Peringatan</button>
       <button class="btn btn--outline btn--sm" data-toast="danger">Galat</button>
     </div>
-    <pre class="doc-code"><code>DasaUI.toast("Data tersimpan", { type: "success", title: "Berhasil", duration: 5000 });</code></pre>
+    <pre class="doc-code"><code>DasaUI.toast("Data tersimpan", { type: "success", title: "Berhasil", duration: 5000, position: "top-center" });
+// posisi bawaan semua toast (default "bottom-right"):
+DasaUI.toast.position = "top-right";</code></pre>
   </section>
 
   <section class="doc-section">
@@ -563,6 +579,7 @@
   </section>
 
 </main>
+</div>
 
 <script>
   /* Daftar isi otomatis dari <h2> + tombol "Salin" untuk setiap blok kode. */
@@ -590,10 +607,20 @@
       });
       pre.appendChild(b);
     });
+    if ("IntersectionObserver" in window) {
+      var links = toc.querySelectorAll("a");
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (l) { l.classList.toggle("is-active", l.getAttribute("href") === "#" + e.target.id); });
+        });
+      }, { rootMargin: "-20% 0px -70% 0px" });
+      document.querySelectorAll(".doc-section[id]").forEach(function (s) { io.observe(s); });
+    }
     document.querySelectorAll("[data-toast]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var t = btn.getAttribute("data-toast");
-        DasaUI.toast("Ini contoh notifikasi " + t + ".", { type: t, title: btn.textContent });
+        DasaUI.toast("Ini contoh notifikasi " + t + ".", { type: t, title: btn.textContent, position: document.getElementById("toast-pos").value });
       });
     });
   })();
