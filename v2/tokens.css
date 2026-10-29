@@ -1,0 +1,154 @@
+/* ==========================================================================
+   Dasa Design System — Design Tokens
+   PT Dasa Aprilindo Sentosa (daas.co.id) — system integration & data
+   technology. Source of truth for color, type, spacing, radius, shadow and
+   motion. Import this file before components.css — components read these
+   custom properties.
+
+   Theming: raw brand hues are fixed constants (identity colors never
+   change). Semantic aliases are redefined per theme in [data-theme="dark"]
+   — components only ever reference the semantic aliases, never the raw
+   scale, so the same component CSS works in both themes.
+   ========================================================================== */
+
+:root {
+  /* -- Raw brand colors (fixed, identity — do not theme) ------------------ */
+  --dasa-navy-ink: #00092c;       /* body copy ink (light theme) */
+  --dasa-navy-heading: #142b4f;   /* headings / brand dark surface */
+  --dasa-blue-500: #086ad8;       /* primary accent */
+  --dasa-blue-400: #378cff;       /* primary accent hover */
+  --dasa-orange-500: #ff5f00;     /* secondary accent — CTA, eyebrow, logo */
+  --dasa-orange-600: #d94f00;     /* secondary accent hover */
+  --dasa-white: #ffffff;
+
+  /* -- Raw neutrals (warm undertone, not pure gray) ------------------------ */
+  --dasa-gray-800: #333333;
+  --dasa-gray-500: #777777;
+  --dasa-gray-400: #999999;
+  --dasa-gray-100: #e0e0e0;
+  --dasa-gray-50: #f3f2ed;
+  --dasa-bg-light: #fffaf7;
+
+  /* -- Raw neutrals for dark theme (derived from brand navy) -------------- */
+  --dasa-navy-950: #05081c;   /* dark theme page background */
+  --dasa-navy-900: #0b1430;   /* dark theme surface */
+  --dasa-navy-800: #101c3d;   /* dark theme surface-muted / elevated */
+  --dasa-navy-700: #1e3159;   /* dark theme border */
+  --dasa-slate-300: #aeb4c4;  /* dark theme secondary text */
+  --dasa-slate-500: #7c879e;  /* dark theme tertiary text */
+
+  /* -- Semantic aliases: LIGHT theme (default) ----------------------------- */
+  --color-bg: var(--dasa-bg-light);
+  --color-surface: var(--dasa-white);
+  --color-surface-muted: var(--dasa-gray-50);
+  --color-border: var(--dasa-gray-100);
+  --color-text-primary: var(--dasa-navy-ink);
+  --color-text-secondary: var(--dasa-gray-500);
+  --color-text-tertiary: var(--dasa-gray-400);
+  --color-heading: var(--dasa-navy-heading);      /* adapts per theme */
+  --color-on-heading: var(--dasa-white);           /* contrast text for a --color-heading fill */
+  --color-text-on-brand: var(--dasa-white);        /* text on filled brand buttons, constant */
+
+  /* -- Brand accents (constant across themes — identity, not surface) ----- */
+  --color-brand-ink: var(--dasa-navy-heading);     /* fixed navy — decorative dark panels */
+  --color-brand-primary: var(--dasa-blue-500);
+  --color-brand-primary-hover: var(--dasa-blue-400);
+  --color-brand-secondary: var(--dasa-orange-500);
+  --color-brand-secondary-hover: var(--dasa-orange-600);
+  /* v2: oranye untuk TEKS kecil di latar terang (kontras 5.2:1; #FF5F00 hanya ~3:1). */
+  --color-brand-secondary-text: #c24100;
+  --color-link: var(--dasa-blue-500);
+
+  /* -- Feedback -------------------------------------------------------------- */
+  --color-success: #1f9d6e;
+  --color-warning: #c77700;
+  --color-danger: #cd201f;
+
+  /* -- Typography: families ------------------------------------------------ */
+  --font-display: "DM Sans", "Segoe UI", sans-serif;      /* headings, buttons, brand */
+  --font-body: "DM Sans", "Segoe UI", sans-serif;         /* nav, UI labels, form labels */
+  --font-copy: "Roboto", "Segoe UI", sans-serif;         /* paragraph body copy */
+
+  /* -- Typography: scale ---------------------------------------------------- */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px — UI label */
+  --text-base: 1rem;     /* 16px — body copy */
+  --text-md: 1.125rem;   /* 18px */
+  --text-lg: 1.25rem;    /* 20px */
+  --text-xl: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);   /* 18-22px - H3 (fluid v2) */
+  --text-2xl: clamp(1.375rem, 1.1rem + 1.2vw, 1.75rem);    /* 22-28px - H2 (fluid v2) */
+  --text-3xl: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);        /* 28-40px - stat (fluid v2) */
+  --text-4xl: clamp(1.75rem, 1.2rem + 2.6vw, 2.75rem);     /* 28-44px - H1 (fluid v2) */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.4;
+  --line-height-normal: 1.6;
+
+  /* -- Spacing (4px base) --------------------------------------------------- */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 3rem;     /* 48px */
+  /* v2: spasi besar fluid agar tidak terlalu lega di mobile */
+  --space-8: clamp(2.5rem, 2rem + 2vw, 4rem);     /* 40-64px */
+  --space-9: clamp(3rem, 2rem + 4vw, 6rem);       /* 48-96px */
+  --space-10: clamp(4rem, 2.5rem + 6vw, 8rem);    /* 64-128px */
+
+  /* -- Layout --------------------------------------------------------------- */
+  /* v2: container melebar di layar besar (breakpoint: 1440px dan 1920px).
+     Breakpoint: 480 / 768 / 1024 / 1440 / 1920 (mobile-first, min-width). */
+  --container-max: 1140px;
+  --container-padding-inline: clamp(1rem, 0.5rem + 2vw, 2rem);
+  --touch-target: 44px;
+  --section-padding-block: var(--space-9);      /* 96px */
+  --section-padding-block-lg: var(--space-10);  /* 128px — hero */
+
+  /* -- Radius ----------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;    /* input, small card */
+  --radius-lg: 10px;   /* button — matches source CTA */
+  --radius-xl: 16px;   /* large card */
+  --radius-pill: 999px;
+
+  /* -- Shadow ------------------------------------------------------------------ */
+  --shadow-sm: 0 1px 3px rgba(0, 9, 44, 0.08);
+  --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.25);   /* button shadow, matches source */
+  --shadow-lg: 0 12px 30px rgba(0, 9, 44, 0.18); /* card hover elevation */
+  --shadow-nav: 0 0 30px rgba(0, 0, 0, 0.2);
+
+  /* -- Motion ------------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+
+  color-scheme: light;
+}
+
+/* -- Semantic aliases: DARK theme --------------------------------------------
+   Set data-theme="dark" on <html> (or any ancestor) to switch. Only the
+   adaptive surface/text aliases are redefined — brand accent colors and
+   --color-brand-ink stay constant so the identity never shifts. */
+[data-theme="dark"] {
+  --color-brand-secondary-text: var(--dasa-orange-500); /* di latar gelap kontras sudah cukup */
+  --color-bg: var(--dasa-navy-950);
+  --color-surface: var(--dasa-navy-900);
+  --color-surface-muted: var(--dasa-navy-800);
+  --color-border: var(--dasa-navy-700);
+  --color-text-primary: var(--dasa-gray-50);
+  --color-text-secondary: var(--dasa-slate-300);
+  --color-text-tertiary: var(--dasa-slate-500);
+  --color-heading: var(--dasa-gray-50);
+  --color-on-heading: var(--dasa-navy-950);
+
+  color-scheme: dark;
+}

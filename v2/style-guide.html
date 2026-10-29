@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Dasa Design System v2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+<script src="dasa-ui.js" defer></script>
+<style>
+  .swatch { border-radius: var(--radius-md); height: 84px; display:flex; align-items:flex-end; padding:10px; }
+  .swatch-label { font-family: var(--font-body); font-size: 12px; background: rgba(255,255,255,.9); padding:2px 6px; border-radius:4px; color:#222; }
+  .swatch-row { display:grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: 20px; }
+  .swatch-row > div { display:flex; flex-direction:column; gap:8px; }
+  .swatch-row small { font-family: var(--font-body); font-size: 11px; color: var(--color-text-tertiary); }
+  .type-row { border-bottom: 1px solid var(--color-border); padding: 24px 0; display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 32px; }
+  .type-row .meta { font-family: var(--font-body); font-size: 12px; color: var(--color-text-tertiary); min-width:min(170px, 100%); }
+  .doc-title { font-size: clamp(1.5rem, 1.25rem + 1.2vw, 2rem); margin-bottom: var(--space-2); } /* header halaman: 24-32px */
+  .doc-section { margin-bottom: var(--space-10); }
+  .doc-section > h2 { border-bottom: 2px solid var(--color-brand-secondary); padding-bottom: var(--space-3); margin-bottom: var(--space-6); }
+  code { background: var(--color-surface-muted); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; }
+  .theme-toggle {
+    font-family: var(--font-body); font-weight: 600; font-size: 13px;
+    background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.35);
+    border-radius: var(--radius-pill); padding: 8px 16px; cursor: pointer;
+  }
+  .doc-section { scroll-margin-top: 4rem; }
+  .doc-section > h2, .doc-section[id] { scroll-margin-top: 4rem; }
+  .doc-toc { position: sticky; top: 0; z-index: 20; display: flex; gap: var(--space-1); overflow-x: auto; white-space: nowrap; padding: var(--space-2) var(--container-padding-inline); background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .doc-toc a { padding: var(--space-2) var(--space-3); border-radius: var(--radius-pill); font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600; color: var(--color-heading); }
+  .doc-toc a:hover { background: var(--color-surface-muted); }
+  .doc-code { position: relative; margin: var(--space-4) 0 0; padding: var(--space-7) var(--space-4) var(--space-4); overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-muted); font-size: var(--text-sm); }
+  .doc-code code { background: none; padding: 0; font-size: inherit; }
+  .doc-code .copy-btn { position: absolute; top: var(--space-2); right: var(--space-2); }</style>
+</head>
+<body>
+
+<header class="section" style="padding-block: var(--space-8) var(--space-6); background: var(--color-surface-muted); border-bottom: 1px solid var(--color-border);">
+  <div class="container" style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+    <div>
+      <span class="eyebrow">Design System &middot; v2 (responsif) &middot; <a href="../v1/style-guide.html">Beralih ke v1</a> &middot; <a href="../index.html">Pilih versi</a></span>
+      <h1 class="doc-title">Dasa Design System</h1>
+      <p style="color:var(--color-text-secondary); max-width:640px;">PT Dasa Aprilindo Sentosa — system integration &amp; data technology. Diturunkan dari identitas visual <strong>daas.co.id</strong>: navy korporat, aksen biru &amp; oranye, tipografi Montserrat/DM&nbsp;Sans/Roboto. Token yang sama mendukung tema terang dan gelap.</p>
+    </div>
+    <button class="theme-toggle" style="background: var(--color-surface); color: var(--color-heading); border-color: var(--color-border);" onclick="document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark'); this.textContent = document.documentElement.getAttribute('data-theme')==='dark' ? '☾ Dark mode' : '☀ Light mode';">☀ Light mode</button>
+  </div>
+</header>
+
+<nav class="doc-toc" id="doc-toc" aria-label="Daftar isi"></nav>
+
+<main class="container" style="padding-block: var(--space-8);">
+
+  <section class="doc-section">
+    <h2>Warna</h2>
+    <p>Warna brand (navy, biru, oranye) tetap konstan di kedua tema — hanya permukaan (background, surface, border, teks) yang beradaptasi. Coba tombol tema di atas.</p>
+    <h4 style="margin-bottom: var(--space-4);">Brand (konstan)</h4>
+    <div class="swatch-row" style="margin-bottom: var(--space-7);">
+      <div><div class="swatch" style="background:var(--dasa-navy-ink);"><span class="swatch-label">navy-ink</span></div><small>#00092C — teks isi utama</small></div>
+      <div><div class="swatch" style="background:var(--dasa-navy-heading);"><span class="swatch-label">navy-heading</span></div><small>#142B4F — heading, nav aktif</small></div>
+      <div><div class="swatch" style="background:var(--dasa-blue-500);"><span class="swatch-label">blue-500</span></div><small>#086AD8 — aksen primer</small></div>
+      <div><div class="swatch" style="background:var(--dasa-blue-400);"><span class="swatch-label">blue-400</span></div><small>#378CFF — hover primer</small></div>
+      <div><div class="swatch" style="background:var(--dasa-orange-500);"><span class="swatch-label">orange-500</span></div><small>#FF5F00 — aksen sekunder / CTA</small></div>
+      <div><div class="swatch" style="background:var(--dasa-orange-600);"><span class="swatch-label">orange-600</span></div><small>#D94F00 — hover sekunder</small></div>
+    </div>
+    <h4 style="margin-bottom: var(--space-4);">Netral — tema terang</h4>
+    <div class="swatch-row" style="margin-bottom: var(--space-7);">
+      <div><div class="swatch" style="background:var(--dasa-gray-800); border:1px solid #eee;"><span class="swatch-label">gray-800</span></div><small>#333333</small></div>
+      <div><div class="swatch" style="background:var(--dasa-gray-500); border:1px solid #eee;"><span class="swatch-label">gray-500</span></div><small>#777777</small></div>
+      <div><div class="swatch" style="background:var(--dasa-gray-400); border:1px solid #eee;"><span class="swatch-label">gray-400</span></div><small>#999999</small></div>
+      <div><div class="swatch" style="background:var(--dasa-gray-100); border:1px solid #eee;"><span class="swatch-label">gray-100</span></div><small>#E0E0E0</small></div>
+      <div><div class="swatch" style="background:var(--dasa-gray-50); border:1px solid #eee;"><span class="swatch-label">gray-50</span></div><small>#F3F2ED</small></div>
+      <div><div class="swatch" style="background:var(--dasa-bg-light); border:1px solid #eee;"><span class="swatch-label">bg-light</span></div><small>#FFFAF7</small></div>
+    </div>
+    <h4 style="margin-bottom: var(--space-4);">Netral — tema gelap (diturunkan dari navy)</h4>
+    <div class="swatch-row">
+      <div><div class="swatch" style="background:var(--dasa-navy-950);"><span class="swatch-label">navy-950</span></div><small>#05081C — bg gelap</small></div>
+      <div><div class="swatch" style="background:var(--dasa-navy-900);"><span class="swatch-label">navy-900</span></div><small>#0B1430 — surface gelap</small></div>
+      <div><div class="swatch" style="background:var(--dasa-navy-800);"><span class="swatch-label">navy-800</span></div><small>#101C3D — surface-muted gelap</small></div>
+      <div><div class="swatch" style="background:var(--dasa-navy-700);"><span class="swatch-label">navy-700</span></div><small>#1E3159 — border gelap</small></div>
+      <div><div class="swatch" style="background:var(--dasa-slate-300);"><span class="swatch-label">slate-300</span></div><small>#AEB4C4 — teks sekunder gelap</small></div>
+      <div><div class="swatch" style="background:var(--dasa-slate-500);"><span class="swatch-label">slate-500</span></div><small>#7C879E — teks tersier gelap</small></div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Permukaan &amp; teks semantik (adaptif per tema)</h2>
+    <div class="grid grid--4">
+      <div class="stat"><div class="swatch" style="background:var(--color-bg); border:1px solid var(--color-border); height:48px;"></div><div class="stat__label" style="margin-top:6px;">--color-bg</div></div>
+      <div class="stat"><div class="swatch" style="background:var(--color-surface); border:1px solid var(--color-border); height:48px;"></div><div class="stat__label" style="margin-top:6px;">--color-surface</div></div>
+      <div class="stat"><div class="swatch" style="background:var(--color-surface-muted); border:1px solid var(--color-border); height:48px;"></div><div class="stat__label" style="margin-top:6px;">--color-surface-muted</div></div>
+      <div class="stat"><div class="swatch" style="background:var(--color-border); height:48px;"></div><div class="stat__label" style="margin-top:6px;">--color-border</div></div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tipografi</h2>
+    <p>Tiga peran font: <code>--font-display</code> (Montserrat) untuk heading &amp; tombol, <code>--font-body</code> (DM Sans) untuk navigasi &amp; UI label, <code>--font-copy</code> (Roboto) untuk paragraf panjang.</p>
+    <div class="type-row"><div class="meta">H1 · 48px · 800</div><div style="font-family:var(--font-display); font-size:var(--text-4xl); font-weight:800; color:var(--color-heading);">Most Reliable Technology</div></div>
+    <div class="type-row"><div class="meta">H2 · 32px · 700</div><div style="font-family:var(--font-display); font-size:var(--text-2xl); font-weight:700; color:var(--color-heading);">Deliver the best solution</div></div>
+    <div class="type-row"><div class="meta">H3 · 24px · 700</div><div style="font-family:var(--font-display); font-size:var(--text-xl); font-weight:700; color:var(--color-heading);">What we deliver</div></div>
+    <div class="type-row"><div class="meta">UI label · 14px · 600</div><div style="font-family:var(--font-body); font-size:var(--text-sm); font-weight:600; color:var(--color-heading);">Home · Services · About</div></div>
+    <div class="type-row"><div class="meta">Body copy · 16px · 400</div><div style="font-family:var(--font-copy); font-size:var(--text-base); max-width:520px; color:var(--color-text-secondary);">We help our clients succeed by creating brand identities, digital IT experiences, &amp; print materials.</div></div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tombol</h2>
+    <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+      <button class="btn btn--primary">Let's Connect</button>
+      <button class="btn btn--secondary">Contact Us</button>
+      <button class="btn btn--outline">Learn More</button>
+      <button class="btn btn--ghost">Cancel</button>
+      <button class="btn btn--primary btn--sm">Small</button>
+      <button class="btn btn--primary btn--lg">Large</button>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Kartu &amp; Badge</h2>
+    <div class="grid grid--3" style="margin-bottom: var(--space-6);">
+      <div class="card">
+        <div class="card__icon">B</div>
+        <h4>Build</h4>
+        <p>End-to-end system integration dan implementasi teknologi data.</p>
+        <span class="badge badge--secondary">Layanan Inti</span>
+      </div>
+      <div class="card">
+        <div class="card__icon">R</div>
+        <h4>Research</h4>
+        <p>Riset kebutuhan bisnis untuk solusi teknologi yang tepat sasaran.</p>
+        <span class="badge badge--primary">Strategi</span>
+      </div>
+      <div class="card">
+        <div class="card__icon">D</div>
+        <h4>Develop</h4>
+        <p>Pengembangan dan manajemen layanan berkelanjutan.</p>
+        <span class="badge">Delivery</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Navigasi</h2>
+    <div class="navbar" style="border:1px solid var(--color-border); border-radius: var(--radius-lg); padding-inline: var(--space-5);">
+      <span class="navbar__brand">DASA</span>
+      <ul class="navbar__links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Partner</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <button class="btn btn--primary btn--sm">Let's Connect</button>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Form</h2>
+    <div class="grid grid--2">
+      <div class="field">
+        <label for="name">Nama</label>
+        <input id="name" type="text" placeholder="Nama lengkap" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="nama@perusahaan.com" />
+      </div>
+    </div>
+    <div class="field">
+      <label for="msg">Pesan</label>
+      <textarea id="msg" rows="3" placeholder="Ceritakan kebutuhan proyek Anda"></textarea>
+    </div>
+    <button class="btn btn--primary">Kirim Pesan</button>
+
+    <h3 style="margin-top: var(--space-8);">Pengelompokan field (fieldset)</h3>
+    <p style="color: var(--color-text-secondary);">Gunakan <code>&lt;fieldset class="fieldset"&gt;</code> dengan <code>&lt;legend&gt;</code> untuk mengelompokkan field yang berkaitan; pembaca layar ikut mengumumkan nama grupnya. Isi grup memakai <code>.field</code> dan <code>.grid</code> seperti biasa.</p>
+
+    <fieldset class="fieldset">
+      <legend>Data kontak</legend>
+      <p class="fieldset__hint">Dipakai tim kami untuk menghubungi Anda.</p>
+      <div class="grid grid--2">
+        <div class="field">
+          <label for="fs-name">Nama</label>
+          <input id="fs-name" type="text" placeholder="Nama lengkap" />
+        </div>
+        <div class="field">
+          <label for="fs-email">Email</label>
+          <input id="fs-email" type="email" placeholder="nama@perusahaan.com" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>Detail proyek</legend>
+      <div class="grid grid--2">
+        <div class="field">
+          <label for="fs-type">Jenis layanan</label>
+          <select id="fs-type"><option>Build</option><option>Research</option><option>Develop</option></select>
+        </div>
+        <div class="field">
+          <label for="fs-budget">Perkiraan anggaran</label>
+          <input id="fs-budget" type="text" placeholder="mis. Rp 250 juta" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="fs-msg">Kebutuhan</label>
+        <textarea id="fs-msg" rows="3" placeholder="Ceritakan kebutuhan proyek Anda"></textarea>
+      </div>
+    </fieldset>
+
+    <h4 style="margin-top: var(--space-6);">Tata letak form (<code>.form</code>, <code>.form-row</code>, <code>.field--sm</code>)</h4>
+    <p style="color: var(--color-text-secondary);">Form tidak melebar penuh: bungkus dengan <code>.form</code> (atau kartu <code>.card--form</code>), kelompokkan dengan <code>fieldset</code>, sejajarkan field berkaitan dengan <code>.form-row</code>, dan batasi field pendek dengan <code>.field--xs|sm|md</code>.</p>
+    <div class="card card--form">
+      <form class="form" onsubmit="return false;">
+        <fieldset class="fieldset fieldset--plain">
+          <legend>Data anggota</legend>
+          <div class="form-row">
+            <div class="field"><label for="fl-email">Email</label><input id="fl-email" type="email" placeholder="nama@perusahaan.com" /></div>
+            <div class="field"><label for="fl-name">Nama lengkap</label><input id="fl-name" type="text" placeholder="Nama Lengkap" /></div>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset fieldset--plain">
+          <legend>Pengaturan</legend>
+          <div class="field field--sm"><label for="fl-limit">Batas (angka)</label><input id="fl-limit" type="number" min="1" value="5" /></div>
+          <label class="field__checkbox" for="fl-opt"><input id="fl-opt" type="checkbox" /><span>Kirim undangan setelah disimpan</span></label>
+        </fieldset>
+        <div class="form__actions"><button type="submit" class="btn btn--primary">Simpan</button><button type="button" class="btn btn--outline">Batal</button></div>
+      </form>
+    </div>
+
+    <h4 style="margin-top: var(--space-6);">Status galat (<code>field--invalid</code>)</h4>
+    <p style="color: var(--color-text-secondary);">Tambahkan <code>field--invalid</code> pada <code>.field</code> agar label, border, dan cincin fokus menjadi merah; letakkan pesan galat di <code>&lt;small&gt;</code>.</p>
+    <div class="grid grid--2">
+      <div class="field field--invalid">
+        <label for="fs-bad">Email</label>
+        <input id="fs-bad" type="email" value="nama@" />
+        <small>Masukkan alamat email yang valid.</small>
+      </div>
+      <div class="field">
+        <label for="fs-ok">Email (valid)</label>
+        <input id="fs-ok" type="email" value="nama@perusahaan.com" />
+      </div>
+    </div>
+
+    <h4 style="margin-top: var(--space-6);">Varian</h4>
+    <div class="grid grid--2">
+      <fieldset class="fieldset fieldset--plain">
+        <legend>Tanpa kotak (<code>fieldset--plain</code>)</legend>
+        <div class="field">
+          <label for="fs-plain">Perusahaan</label>
+          <input id="fs-plain" type="text" placeholder="PT Contoh Sejahtera" />
+        </div>
+      </fieldset>
+      <fieldset class="fieldset fieldset--muted">
+        <legend>Latar lembut (<code>fieldset--muted</code>)</legend>
+        <div class="field">
+          <label for="fs-muted">Jabatan</label>
+          <input id="fs-muted" type="text" placeholder="Head of Product" />
+        </div>
+      </fieldset>
+    </div>
+    <fieldset class="fieldset" disabled>
+      <legend>Dinonaktifkan (atribut <code>disabled</code>)</legend>
+      <p class="fieldset__hint">Semua field di dalam grup ikut nonaktif.</p>
+      <div class="field">
+        <label for="fs-off">Kode referensi</label>
+        <input id="fs-off" type="text" value="REF-2026-001" />
+      </div>
+    </fieldset>
+  </section>
+
+  <section class="doc-section">
+    <h2>Statistik</h2>
+    <div class="grid grid--4">
+      <div class="stat"><div class="stat__value">70+</div><div class="stat__label">Projects Delivered</div></div>
+      <div class="stat"><div class="stat__value">12+</div><div class="stat__label">Years Experience</div></div>
+      <div class="stat"><div class="stat__value">40+</div><div class="stat__label">Clients</div></div>
+      <div class="stat"><div class="stat__value">98%</div><div class="stat__label">Satisfaction</div></div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Alert &amp; Notifikasi</h2>
+    <div class="grid grid--2">
+      <div class="alert alert--info">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Informasi</p><p>Pembaruan sistem terjadwal Sabtu, 02.00–04.00 WIB.</p></div>
+      </div>
+      <div class="alert alert--success">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Berhasil</p><p>Konfigurasi data integrator telah disimpan.</p></div>
+      </div>
+      <div class="alert alert--warning">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Peringatan</p><p>Kuota penyimpanan mendekati batas maksimum.</p></div>
+      </div>
+      <div class="alert alert--danger">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Gagal</p><p>Koneksi ke server database terputus.</p></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-8);">Bisa ditutup &amp; tutup otomatis</h3>
+    <p style="color: var(--color-text-secondary);">Tambahkan <code>alert--dismissible</code> dan tombol <code>.alert__close[data-alert-close]</code> untuk tombol tutup; tambahkan <code>data-autoclose="ms"</code> agar tertutup sendiri dengan indikator waktu (berhenti selagi kursor di atasnya). Perilakunya dijalankan <code>dasa-ui.js</code> (opsional). Pesan galat sebaiknya <em>tidak</em> ditutup otomatis.</p>
+    <div class="grid grid--2" id="alert-demo">
+      <div class="alert alert--info alert--dismissible">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Bisa ditutup</p><p>Klik tombol × untuk menutup pesan ini.</p></div>
+        <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>
+      </div>
+      <div class="alert alert--success alert--dismissible" data-autoclose="8000">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Tutup otomatis (8 dtk)</p><p>Tertutup sendiri; arahkan kursor untuk menjeda.</p></div>
+        <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>
+      </div>
+      <div class="alert alert--warning alert--dismissible">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Peringatan menetap</p><p>Tetap tampil sampai pengguna menutupnya.</p></div>
+        <button type="button" class="alert__close" data-alert-close aria-label="Tutup">&times;</button>
+      </div>
+      <div class="alert alert--info" data-autoclose="6000">
+        <span class="alert__dot"></span>
+        <div><p class="alert__title">Hanya tutup otomatis</p><p>Tanpa tombol tutup; hilang setelah 6 detik.</p></div>
+      </div>
+    </div>
+    <button type="button" class="btn btn--outline btn--sm" id="alert-demo-reset" style="margin-top: var(--space-4);">Tampilkan ulang contoh</button>
+    <script>
+      (function () {
+        var box = document.getElementById('alert-demo');
+        var original = box.innerHTML;
+        document.getElementById('alert-demo-reset').addEventListener('click', function () {
+          box.innerHTML = original; // MutationObserver dasa-ui.js menginisialisasi ulang alert baru
+        });
+      })();
+    </script>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tabel</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Tabel proyek, dapat digulir ke samping">
+      <table class="table">
+        <thead>
+          <tr><th>Proyek</th><th>Klien</th><th>Layanan</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Migrasi Data Nasional</td><td>Sinarmas Finance</td><td>Data Integration</td><td><span class="badge badge--primary">Berjalan</span></td></tr>
+          <tr><td>Platform DevOps</td><td>Indosat</td><td>DevOps</td><td><span class="badge badge--secondary">Selesai</span></td></tr>
+          <tr><td>Database Modernization</td><td>Prodia Widyahusada</td><td>Database Platform</td><td><span class="badge">Perencanaan</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tab</h2>
+    <div class="tabs">
+      <button class="tabs__link tabs__link--active">Ringkasan</button>
+      <button class="tabs__link">Layanan</button>
+      <button class="tabs__link">Portofolio</button>
+      <button class="tabs__link">Kontak</button>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Pagination</h2>
+    <div class="pagination">
+      <span class="pagination__item pagination__item--disabled">‹ Prev</span>
+      <span class="pagination__item pagination__item--active">1</span>
+      <span class="pagination__item">2</span>
+      <span class="pagination__item">3</span>
+      <span class="pagination__item">…</span>
+      <span class="pagination__item">8</span>
+      <span class="pagination__item">Next ›</span>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Breadcrumb</h2>
+    <ul class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Services</a></li>
+      <li>Database Platform</li>
+    </ul>
+  </section>
+
+  <section class="doc-section">
+    <h2>Tooltip</h2>
+    <p>Arahkan kursor ke teks bergaris putus-putus untuk melihat tooltip.</p>
+    <div style="display:flex; gap:var(--space-6); align-items:center;">
+      <span class="tooltip" data-tooltip="Migrasi tanpa downtime">Zero-downtime migration</span>
+      <span class="tooltip" data-tooltip="Didukung SLA 99.9%">SLA Terjamin</span>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Modal</h2>
+    <div class="modal__overlay">
+      <div class="modal">
+        <div class="modal__header">
+          <h4 class="modal__title">Konfirmasi Pengiriman</h4>
+          <button class="modal__close">&times;</button>
+        </div>
+        <div class="modal__body">
+          <p style="margin:0;">Pesan Anda akan dikirim ke tim Dasa. Pastikan detail kebutuhan proyek sudah lengkap sebelum melanjutkan.</p>
+        </div>
+        <div class="modal__footer">
+          <button class="btn btn--ghost btn--sm">Batal</button>
+          <button class="btn btn--primary btn--sm">Kirim</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2>Navbar Responsif (Hamburger)</h2>
+    <p>Tambahkan <code>.navbar--collapsible</code>: di bawah 768px menu tersembunyi dan dibuka lewat tombol hamburger (tanpa JavaScript; Escape / klik link menutup bila <code>dasa-ui.js</code> dimuat). Perkecil jendela untuk mencoba.</p>
+    <nav class="navbar navbar--collapsible" aria-label="Contoh navigasi" style="border:1px solid var(--color-border); border-radius: var(--radius-lg); padding-inline: var(--space-5);">
+      <span class="navbar__brand">DASA</span>
+      <input type="checkbox" id="nav-demo-toggle" class="navbar__toggle-input" />
+      <label for="nav-demo-toggle" class="navbar__toggle" aria-label="Menu"></label>
+      <ul class="navbar__links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Partner</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <div class="navbar__actions"><button class="btn btn--cta btn--sm">Let's Connect</button></div>
+    </nav>
+    <pre class="doc-code"><code>&lt;nav class="navbar navbar--collapsible"&gt;
+  &lt;span class="navbar__brand"&gt;DASA&lt;/span&gt;
+  &lt;input type="checkbox" id="menu" class="navbar__toggle-input" /&gt;
+  &lt;label for="menu" class="navbar__toggle" aria-label="Menu"&gt;&lt;/label&gt;
+  &lt;ul class="navbar__links"&gt;&lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;div class="navbar__actions"&gt;&lt;button class="btn btn--cta btn--sm"&gt;Hubungi&lt;/button&gt;&lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Accordion</h2>
+    <p>Memakai <code>&lt;details&gt;</code> bawaan browser. Beri atribut <code>name="grup"</code> yang sama pada tiap <code>&lt;details&gt;</code> agar hanya satu yang terbuka.</p>
+    <div class="accordion">
+      <details name="faq-demo" open>
+        <summary>Apa itu Dasa Design System?</summary>
+        <div class="accordion__body">Sistem desain CSS-only untuk produk PT Dasa Aprilindo Sentosa.</div>
+      </details>
+      <details name="faq-demo">
+        <summary>Apakah perlu JavaScript?</summary>
+        <div class="accordion__body">Tidak. <code>dasa-ui.js</code> hanya untuk alert, toast, dan dropdown.</div>
+      </details>
+      <details name="faq-demo">
+        <summary>Bagaimana memilih v1 atau v2?</summary>
+        <div class="accordion__body">Pakai v2 untuk tampilan responsif penuh; v1 dipertahankan untuk proyek lama.</div>
+      </details>
+    </div>
+    <pre class="doc-code"><code>&lt;div class="accordion"&gt;
+  &lt;details name="faq"&gt;
+    &lt;summary&gt;Pertanyaan&lt;/summary&gt;
+    &lt;div class="accordion__body"&gt;Jawaban&lt;/div&gt;
+  &lt;/details&gt;
+&lt;/div&gt;</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Switch &amp; Dropdown</h2>
+    <div class="cluster" style="--cluster-gap: var(--space-6);">
+      <label class="switch"><input type="checkbox" role="switch" checked /> Notifikasi email</label>
+      <label class="switch"><input type="checkbox" role="switch" /> Mode hemat data</label>
+      <label class="switch"><input type="checkbox" role="switch" disabled /> Nonaktif</label>
+      <details class="dropdown">
+        <summary class="btn btn--outline btn--sm">Aksi &#9662;</summary>
+        <ul class="dropdown__menu">
+          <li><a href="#">Edit</a></li>
+          <li><a href="#">Duplikat</a></li>
+          <li><button type="button">Hapus</button></li>
+        </ul>
+      </details>
+    </div>
+    <pre class="doc-code"><code>&lt;label class="switch"&gt;&lt;input type="checkbox" role="switch" /&gt; Label&lt;/label&gt;
+
+&lt;details class="dropdown"&gt;  &lt;!-- tambah .dropdown--end jika menu harus rata kanan --&gt;
+  &lt;summary class="btn btn--outline btn--sm"&gt;Aksi&lt;/summary&gt;
+  &lt;ul class="dropdown__menu"&gt;&lt;li&gt;&lt;a href="#"&gt;Edit&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/details&gt;</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Avatar</h2>
+    <div class="cluster">
+      <span class="avatar avatar--sm">RA</span>
+      <span class="avatar">DA</span>
+      <span class="avatar avatar--lg">DS</span>
+      <span class="avatar-group"><span class="avatar">A</span><span class="avatar">B</span><span class="avatar">C</span></span>
+    </div>
+    <pre class="doc-code"><code>&lt;span class="avatar"&gt;RA&lt;/span&gt;   &lt;!-- --sm | --lg; boleh berisi &lt;img alt=""&gt; --&gt;
+&lt;span class="avatar-group"&gt;&lt;span class="avatar"&gt;A&lt;/span&gt;&lt;span class="avatar"&gt;B&lt;/span&gt;&lt;/span&gt;</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Empty State &amp; Skeleton</h2>
+    <div class="grid grid--2">
+      <div class="empty-state">
+        <span class="empty-state__icon" aria-hidden="true">&#9744;</span>
+        <h3 class="empty-state__title">Belum ada data</h3>
+        <p>Data integrator yang Anda buat akan tampil di sini.</p>
+        <button class="btn btn--cta btn--sm">Tambah data</button>
+      </div>
+      <div class="card" aria-busy="true" aria-label="Memuat">
+        <div class="cluster"><span class="skeleton skeleton--circle"></span><span class="skeleton skeleton--text" style="flex:1"></span></div>
+        <span class="skeleton skeleton--text"></span>
+        <span class="skeleton skeleton--text" style="width:70%"></span>
+        <span class="skeleton skeleton--block"></span>
+      </div>
+    </div>
+    <pre class="doc-code"><code>&lt;div class="empty-state"&gt;
+  &lt;span class="empty-state__icon" aria-hidden="true"&gt;&amp;#9744;&lt;/span&gt;
+  &lt;h3 class="empty-state__title"&gt;Belum ada data&lt;/h3&gt;
+  &lt;p&gt;Keterangan singkat.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div aria-busy="true"&gt;&lt;span class="skeleton skeleton--text"&gt;&lt;/span&gt;&lt;/div&gt;</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Toast</h2>
+    <p>Notifikasi sementara di pojok layar (memakai gaya alert). Butuh <code>dasa-ui.js</code>.</p>
+    <div class="cluster">
+      <button class="btn btn--outline btn--sm" data-toast="success">Berhasil</button>
+      <button class="btn btn--outline btn--sm" data-toast="info">Info</button>
+      <button class="btn btn--outline btn--sm" data-toast="warning">Peringatan</button>
+      <button class="btn btn--outline btn--sm" data-toast="danger">Galat</button>
+    </div>
+    <pre class="doc-code"><code>DasaUI.toast("Data tersimpan", { type: "success", title: "Berhasil", duration: 5000 });</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Utilitas Layout</h2>
+    <p><code>.stack</code> (vertikal), <code>.cluster</code> (baris membungkus), <code>.hide-mobile</code>, <code>.show-mobile</code>, <code>.text-center</code>, <code>.text-muted</code>, <code>.visually-hidden</code>. Atur jarak dengan <code>.stack--sm|lg</code> atau variabel <code>--stack-gap</code> / <code>--cluster-gap</code>.</p>
+    <div class="stack stack--sm">
+      <div class="cluster cluster--between"><strong>Judul</strong><span class="text-muted">Keterangan</span></div>
+      <span class="hide-mobile text-muted">Teks ini hanya tampil di tablet ke atas.</span>
+      <span class="show-mobile text-muted">Teks ini hanya tampil di mobile.</span>
+    </div>
+    <pre class="doc-code"><code>&lt;div class="stack"&gt;&lt;h3&gt;Judul&lt;/h3&gt;&lt;p&gt;Isi&lt;/p&gt;&lt;/div&gt;
+&lt;div class="cluster cluster--between"&gt;...&lt;/div&gt;</code></pre>
+  </section>
+
+  <section class="doc-section">
+    <h2>Aksesibilitas &amp; Penamaan</h2>
+    <ul>
+      <li><strong>Fokus keyboard:</strong> semua elemen interaktif mendapat cincin fokus biru (<code>:focus-visible</code>); animasi dimatikan untuk pengguna <code>prefers-reduced-motion</code>.</li>
+      <li><strong>Kontras:</strong> oranye <code>#FF5F00</code> hanya ±3:1 di atas putih. Untuk <em>teks</em> oranye kecil di latar terang pakai <code>var(--color-brand-secondary-text)</code> (#C24100, ±5.2:1); eyebrow dan <code>.badge--secondary</code> sudah memakainya. Tombol oranye (teks putih tebal) pakai ukuran <code>btn--lg</code> atau 18px+ bila perlu AA penuh.</li>
+      <li><strong>Penamaan tombol:</strong> <code>.btn--cta</code> = oranye (alias <code>.btn--primary</code>), <code>.btn--brand</code> = biru (alias <code>.btn--secondary</code>). Nama lama tetap berfungsi.</li>
+      <li><strong>Lebar kartu:</strong> <code>.card--narrow</code> (40rem, alias <code>.card--form</code>) dan <code>.card--wide</code> (56rem).</li>
+    </ul>
+  </section>
+
+  <section class="doc-section">
+    <h2>Contoh Section Gelap (fixed, tidak ikut tema)</h2>
+    <p>Panel navy dekoratif ini sengaja tidak beradaptasi ke tema terang/gelap — dipakai untuk highlight konten, bukan sebagai permukaan default halaman.</p>
+    <div class="section--dark" style="border-radius: var(--radius-xl); padding: var(--space-7);">
+      <span class="eyebrow" style="color:#ff9d66;">About</span>
+      <h2>Deliver the best technology solution</h2>
+      <p>We focused on end to end IT solution to help a company improve their capabilities in facing today's business challenges with technology.</p>
+      <button class="btn btn--primary">Let's Connect</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  /* Daftar isi otomatis dari <h2> + tombol "Salin" untuk setiap blok kode. */
+  (function () {
+    var toc = document.getElementById("doc-toc");
+    document.querySelectorAll(".doc-section").forEach(function (s, i) {
+      var h = s.querySelector("h2");
+      if (!h) return;
+      s.id = s.id || "bagian-" + (i + 1);
+      var a = document.createElement("a");
+      a.href = "#" + s.id;
+      a.textContent = h.textContent.split("(")[0].trim();
+      toc.appendChild(a);
+    });
+    document.querySelectorAll("pre.doc-code").forEach(function (pre) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn btn--outline btn--sm copy-btn";
+      b.textContent = "Salin";
+      b.addEventListener("click", function () {
+        navigator.clipboard.writeText(pre.querySelector("code").textContent).then(function () {
+          b.textContent = "Tersalin";
+          setTimeout(function () { b.textContent = "Salin"; }, 1500);
+        });
+      });
+      pre.appendChild(b);
+    });
+    document.querySelectorAll("[data-toast]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var t = btn.getAttribute("data-toast");
+        DasaUI.toast("Ini contoh notifikasi " + t + ".", { type: t, title: btn.textContent });
+      });
+    });
+  })();
+</script></body>
+</html>

@@ -7,6 +7,20 @@ vanilla script, `dasa-ui.js`, adds behaviour to dismissible alerts). Derived fro
 computed styles of the live site and refined with the brand's official
 color/type/spacing specification (Aug 2026).
 
+## Versi (v1 & v2)
+
+| Versi | Folder | Keterangan |
+|---|---|---|
+| v1 | `v1/` | Ukuran tetap (fokus desktop). Stabil, tidak diubah. |
+| v2 | `v2/` | Responsif penuh (mobile, tablet, desktop, layar besar). **Direkomendasikan.** |
+
+Pilih versi di `index.html` (ui.dasa.my.id), atau langsung pada path stylesheet: `v1/styles.css` atau `v2/styles.css`.
+
+**Perbedaan v2:** token tipografi dan spasi fluid (`clamp()`), grid mobile-first, breakpoint 480/768/1024/1440/1920, container melebar di layar besar (1320px di 1440+, 1600px di 1920+), navbar membungkus, modal menjadi bottom-sheet di mobile, target sentuh 44px (`pointer: coarse`), dan dukungan safe-area. Penyesuaian otomatis lewat media query, tanpa deteksi device. Pastikan halaman memiliki `<meta name="viewport" content="width=device-width, initial-scale=1">`.
+
+Komponen tambahan v2 (navbar hamburger, accordion, switch, dropdown, avatar, empty state, skeleton, toast, utilitas layout, fokus keyboard & kontras) dijelaskan di [`docs/KOMPONEN.md`](docs/KOMPONEN.md).
+
+Di v2, `.card--accent` (garis oranye di atas kartu) **dihapus**; kartu memakai `.card` biasa.
 ## Setup
 
 ```html

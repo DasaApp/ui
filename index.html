@@ -2,10 +2,30 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="refresh" content="0; url=v1/style-guide.html" />
-<title>Dasa Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dasa Design System - Pilih Versi</title>
+<link rel="stylesheet" href="v2/styles.css" />
 </head>
 <body>
-<p>Mengalihkan ke <a href="v1/style-guide.html">Dasa Design System</a>…</p>
+<main class="container section">
+  <span class="eyebrow">Dasa Design System</span>
+  <h1>Pilih versi</h1>
+  <p>Kedua versi dapat dipakai berdampingan. Pilih sesuai kebutuhan proyek Anda.</p>
+
+  <div class="grid grid--2">
+    <article class="card">
+      <h3>v2 <span class="badge">Direkomendasikan</span></h3>
+      <p>Responsif penuh: mobile, tablet, desktop, dan layar besar. Otomatis menyesuaikan viewport, tanpa perubahan kode di sisi pengguna.</p>
+      <a class="btn btn--primary" href="v2/style-guide.html">Buka v2</a>
+    </article>
+    <article class="card">
+      <h3>v1 <span class="badge">Stabil</span></h3>
+      <p>Versi awal dengan ukuran tetap (fokus desktop). Dipertahankan agar proyek lama tidak berubah.</p>
+      <a class="btn btn--secondary" href="v1/style-guide.html">Buka v1</a>
+    </article>
+  </div>
+
+  <p><small>Pakai di proyek: ganti path stylesheet menjadi <code>v1/styles.css</code> atau <code>v2/styles.css</code>.</small></p>
+</main>
 </body>
 </html>
