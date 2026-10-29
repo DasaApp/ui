@@ -441,6 +441,59 @@
   </section>
 
   <section class="doc-section">
+    <h2>Sidebar &amp; App Shell (Drawer Mobile)</h2>
+    <p>Gunakan <code>.app-shell</code> + <code>.sidebar</code> untuk navigasi aplikasi penuh. Di layar besar (&ge; 1024px) tampil sebagai panel kiri permanen, sedangkan di mobile/tablet menjadi drawer geser dari kiri yang dibuka lewat <code>.app-topbar</code> (CSS-only via checkbox; Escape atau klik tautan menutup drawer bila <code>dasa-ui.js</code> dimuat).</p>
+    <div class="app-shell app-shell--contained" style="min-height: 22rem;">
+      <input type="checkbox" id="sb-demo" class="sidebar-toggle-input" />
+      <header class="app-topbar">
+        <label for="sb-demo" class="sidebar-toggle" aria-label="Buka menu sidebar"></label>
+        <span class="navbar__brand">DASA Portal</span>
+      </header>
+      <label for="sb-demo" class="sidebar-backdrop" aria-hidden="true"></label>
+      <aside class="sidebar" aria-label="Navigasi aplikasi">
+        <div class="sidebar__brand">DASA Portal</div>
+        <p class="sidebar__title">Menu Utama</p>
+        <nav class="sidebar__nav">
+          <ul>
+            <li><a href="#sb-demo" class="is-active" aria-current="page">Ringkasan</a></li>
+            <li><a href="#sb-demo">Proyek Integrasi</a></li>
+            <li><a href="#sb-demo">Pipeline Data</a></li>
+            <li><a href="#sb-demo">Pengaturan</a></li>
+          </ul>
+        </nav>
+        <div class="sidebar__footer">
+          <div class="cluster">
+            <span class="avatar avatar--sm">RA</span>
+            <small>Rahadian</small>
+          </div>
+        </div>
+      </aside>
+      <div class="app-main">
+        <h3 style="margin-top:0;">Area Konten Aplikasi</h3>
+        <p class="text-muted">Pada layar &ge; 1024px sidebar selalu terlihat di kiri. Pada mobile/tablet, klik tombol hamburger di bar atas untuk membuka drawer dari kiri.</p>
+      </div>
+    </div>
+    <pre class="doc-code"><code>&lt;div class="app-shell"&gt;
+  &lt;input type="checkbox" id="app-sb" class="sidebar-toggle-input" /&gt;
+  &lt;header class="app-topbar"&gt;
+    &lt;label for="app-sb" class="sidebar-toggle" aria-label="Menu"&gt;&lt;/label&gt;
+    &lt;span class="navbar__brand"&gt;DASA&lt;/span&gt;
+  &lt;/header&gt;
+  &lt;label for="app-sb" class="sidebar-backdrop"&gt;&lt;/label&gt;
+  &lt;aside class="sidebar"&gt;
+    &lt;div class="sidebar__brand"&gt;DASA&lt;/div&gt;
+    &lt;p class="sidebar__title"&gt;Menu&lt;/p&gt;
+    &lt;nav class="sidebar__nav"&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="#" class="is-active"&gt;Dashboard&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="#"&gt;Proyek&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/aside&gt;
+  &lt;main class="app-main"&gt;...&lt;/main&gt;
+&lt;/div&gt;</code></pre>
+  </section>
+  <section class="doc-section">
     <h2>Accordion</h2>
     <p>Memakai <code>&lt;details&gt;</code> bawaan browser. Beri atribut <code>name="grup"</code> yang sama pada tiap <code>&lt;details&gt;</code> agar hanya satu yang terbuka.</p>
     <div class="accordion">

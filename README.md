@@ -18,7 +18,7 @@ Pilih versi di `index.html` (ui.dasa.my.id), atau langsung pada path stylesheet:
 
 **Perbedaan v2:** token tipografi dan spasi fluid (`clamp()`), grid mobile-first, breakpoint 480/768/1024/1440/1920, container melebar di layar besar (1320px di 1440+, 1600px di 1920+), navbar membungkus, modal menjadi bottom-sheet di mobile, target sentuh 44px (`pointer: coarse`), dan dukungan safe-area. Penyesuaian otomatis lewat media query, tanpa deteksi device. Pastikan halaman memiliki `<meta name="viewport" content="width=device-width, initial-scale=1">`.
 
-Komponen tambahan v2 (navbar hamburger, accordion, switch, dropdown, avatar, empty state, skeleton, toast, utilitas layout, fokus keyboard & kontras) dijelaskan di [`docs/KOMPONEN.md`](docs/KOMPONEN.md).
+Komponen tambahan v2 (navbar hamburger, sidebar/app-shell, accordion, switch, dropdown, avatar, empty state, skeleton, toast, utilitas layout, fokus keyboard & kontras) dijelaskan di [`docs/KOMPONEN.md`](docs/KOMPONEN.md).
 
 Di v2, `.card--accent` (garis oranye di atas kartu) **dihapus**; kartu memakai `.card` biasa.
 ## Setup

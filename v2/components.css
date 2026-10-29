@@ -897,3 +897,74 @@ img, video, svg, canvas { max-width: 100%; height: auto; }
 .tabs { overflow-x: auto; scrollbar-width: thin; gap: var(--space-5); -webkit-overflow-scrolling: touch; }
 .tabs__link { flex-shrink: 0; white-space: nowrap; }
 @media (min-width: 768px) { .tabs { gap: var(--space-6); } }
+
+
+/* -- Sidebar / App shell -------------------------------------------------------
+   Desktop (>=1024px): panel kiri permanen. Mobile/tablet: drawer geser dari kiri, dibuka lewat
+   tombol di .app-topbar (checkbox hack, tanpa JavaScript; Escape/klik link menutup bila dasa-ui.js dimuat).
+   <div class="app-shell">
+     <input type="checkbox" id="sb" class="sidebar-toggle-input">
+     <header class="app-topbar"><label for="sb" class="sidebar-toggle" aria-label="Menu"></label> ...</header>
+     <label for="sb" class="sidebar-backdrop"></label>
+     <aside class="sidebar"> .sidebar__brand, .sidebar__title, nav.sidebar__nav > ul > li > a(.is-active) </aside>
+     <main class="app-main">...</main>
+   </div>
+   .app-shell--contained: drawer dibatasi di dalam shell (untuk demo/preview). */
+.app-shell { --sidebar-width: 16rem; --sb-position: fixed; position: relative; min-height: 100vh; }
+.app-shell--contained { --sb-position: absolute; min-height: 0; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+.sidebar-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
+.app-topbar {
+  display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-4);
+  background: var(--color-surface); border-bottom: 1px solid var(--color-border);
+}
+.sidebar-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: var(--touch-target); min-height: var(--touch-target); cursor: pointer;
+  border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  color: var(--color-heading); font-size: var(--text-lg); line-height: 1;
+}
+.sidebar-toggle::before { content: "\2630"; }
+.sidebar-toggle-input:checked ~ .app-topbar .sidebar-toggle::before { content: "\2715"; }
+.sidebar-toggle-input:focus-visible ~ .app-topbar .sidebar-toggle { outline: 3px solid var(--color-brand-primary); outline-offset: 2px; }
+
+.sidebar {
+  position: var(--sb-position); z-index: 60; top: 0; bottom: 0; left: 0;
+  width: min(var(--sidebar-width), 85vw); overflow-y: auto; box-sizing: border-box;
+  padding: var(--space-5) var(--space-3); display: flex; flex-direction: column; gap: var(--space-4);
+  background: var(--color-surface); border-inline-end: 1px solid var(--color-border);
+  transform: translateX(-100%); visibility: hidden;
+  transition: transform var(--duration-base) var(--ease-standard), visibility 0s linear var(--duration-base);
+}
+.sidebar-toggle-input:checked ~ .sidebar {
+  transform: none; visibility: visible; box-shadow: var(--shadow-lg);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.sidebar-backdrop {
+  position: var(--sb-position); inset: 0; z-index: 55; display: none;
+  background: color-mix(in srgb, var(--dasa-navy-ink) 55%, transparent);
+}
+.sidebar-toggle-input:checked ~ .sidebar-backdrop { display: block; }
+
+.sidebar__brand { padding-inline: var(--space-3); font-family: var(--font-display); font-weight: var(--font-weight-bold); font-size: var(--text-lg); color: var(--color-heading); }
+.sidebar__title { margin: 0; padding-inline: var(--space-3); font-family: var(--font-body); font-weight: var(--font-weight-semibold); font-size: var(--text-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-tertiary); }
+.sidebar__nav ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.sidebar__nav a {
+  display: flex; align-items: center; gap: var(--space-3); min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+  font-family: var(--font-body); font-weight: var(--font-weight-semibold); font-size: var(--text-sm); color: var(--color-heading);
+}
+.sidebar__nav a:hover { background: var(--color-surface-muted); }
+.sidebar__nav a.is-active, .sidebar__nav a[aria-current="page"] {
+  background: color-mix(in srgb, var(--color-brand-primary) 12%, var(--color-surface)); color: var(--color-brand-primary);
+}
+.sidebar__footer { margin-top: auto; padding: var(--space-3); border-top: 1px solid var(--color-border); }
+.app-main { padding: var(--space-5) var(--container-padding-inline); min-width: 0; }
+
+@media (min-width: 1024px) {
+  .app-shell { display: grid; grid-template-columns: var(--sidebar-width) minmax(0, 1fr); align-items: start; }
+  .app-topbar, .sidebar-backdrop, .sidebar-toggle-input:checked ~ .sidebar-backdrop { display: none; }
+  .sidebar, .sidebar-toggle-input:checked ~ .sidebar {
+    position: sticky; top: 0; height: 100vh; width: auto; transform: none; visibility: visible; box-shadow: none; transition: none;
+  }
+  .app-shell--contained .sidebar { position: relative; height: auto; min-height: 100%; }
+}

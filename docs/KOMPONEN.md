@@ -8,6 +8,7 @@ Contoh langsung ada di `v2/style-guide.html` (lengkap dengan tombol **Salin**).
 | Komponen | Pakai untuk | Jangan dipakai untuk |
 |---|---|---|
 | `navbar--collapsible` | Navigasi situs yang harus muat di mobile | Navigasi bertingkat/mega-menu |
+| `app-shell` + `sidebar` | Navigasi aplikasi/dashboard dengan banyak menu | Landing page sederhana (pakai `navbar`) |
 | `accordion` | FAQ, detail yang jarang dibaca | Konten utama yang harus selalu terlihat |
 | `switch` | Pengaturan yang langsung berlaku (on/off) | Pilihan yang butuh tombol Simpan (pakai checkbox) |
 | `dropdown` | Daftar aksi pendek (3-7 item) | Navigasi utama, atau isian form (pakai `select`) |
@@ -21,6 +22,17 @@ Contoh langsung ada di `v2/style-guide.html` (lengkap dengan tombol **Salin**).
 Tambahkan `.navbar--collapsible`, sebuah checkbox `.navbar__toggle-input`, dan label `.navbar__toggle`
 (`aria-label="Menu"`). Di bawah 768px menu disembunyikan dan dibuka lewat hamburger, tanpa JavaScript.
 Dengan `dasa-ui.js`, tombol Escape dan klik pada link menutup menu. `id` checkbox harus unik per halaman.
+
+## Sidebar & App Shell (Drawer Mobile)
+
+Bungkus aplikasi dengan `.app-shell` yang berisi:
+1. `<input type="checkbox" id="app-sb" class="sidebar-toggle-input">`
+2. `<header class="app-topbar">` dengan `<label for="app-sb" class="sidebar-toggle" aria-label="Menu"></label>`
+3. `<label for="app-sb" class="sidebar-backdrop"></label>`
+4. `<aside class="sidebar">` berisi `.sidebar__brand`, `.sidebar__title`, `.sidebar__nav`, dan opsional `.sidebar__footer`
+5. `<main class="app-main">` untuk isi halaman
+
+Di desktop (>= 1024px) `.sidebar` tampil sebagai panel kiri permanen (lebar `--sidebar-width`, bawaan `16rem`) dan `.app-topbar` otomatis disembunyikan. Di mobile/tablet (< 1024px) `.sidebar` menjadi drawer geser dari kiri yang dibuka lewat tombol di `.app-topbar`. Tambahkan `.app-shell--contained` bila ingin membatasi drawer di dalam satu kotak preview.
 
 ## Accordion
 
@@ -83,5 +95,5 @@ Atur jarak dengan `.stack--sm|lg` atau variabel `--stack-gap` / `--cluster-gap`.
 
 ## Style guide: daftar isi
 
-Di 2/style-guide.html daftar isi tampil sebagai **sidebar kiri** pada layar >= 1024px (bagian aktif disorot saat menggulir)
+Di `v2/style-guide.html` daftar isi tampil sebagai **sidebar kiri** pada layar >= 1024px (bagian aktif disorot saat menggulir)
 dan sebagai bar horizontal yang menempel di atas pada mobile/tablet.

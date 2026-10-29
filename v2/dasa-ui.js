@@ -134,6 +134,11 @@
   document.addEventListener("click", function (event) {
     closeMenus(event.target);
     var link = event.target.closest && event.target.closest(".navbar--collapsible .navbar__links a");
+    var sbLink = event.target.closest && event.target.closest(".sidebar__nav a");
+    if (sbLink) {
+      var sbToggle = sbLink.closest(".app-shell").querySelector(".sidebar-toggle-input");
+      if (sbToggle) sbToggle.checked = false;
+    }
     if (link) {
       var toggle = link.closest(".navbar").querySelector(".navbar__toggle-input");
       if (toggle) toggle.checked = false;
@@ -142,7 +147,7 @@
   document.addEventListener("keydown", function (event) {
     if (event.key !== "Escape") return;
     closeMenus(null);
-    document.querySelectorAll(".navbar__toggle-input:checked").forEach(function (t) { t.checked = false; });
+    document.querySelectorAll(".navbar__toggle-input:checked, .sidebar-toggle-input:checked").forEach(function (t) { t.checked = false; });
   });
 
   /* -- v2: toast --------------------------------------------------------------
